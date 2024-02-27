@@ -12,9 +12,17 @@ class CategoryStates(StatesGroup):
 
     
 class ProductStates(StatesGroup):
-    addProductState = State()
+    addSelectCategoryProdState = State()
+    addProductTitleState = State()
+    addProductTextState = State()
+    addProductImageState = State()
+    addProductPriceState = State()
+    addProductPhoneState = State()
+
     
     startEditProductState = State()
+    selectEditProductsState = State()
+    selectDataProductsState = State()
     finishEditProductState = State()
 
     startDeleteProductState = State()
