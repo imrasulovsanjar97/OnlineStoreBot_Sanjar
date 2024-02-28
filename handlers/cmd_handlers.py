@@ -12,6 +12,7 @@ cmd_router = Router()
 
 @cmd_router.message(CommandStart())
 async def start_handler(message: Message):
+    print(message.from_user.id)
     if message.from_user.id in admins:
         await message.bot.set_my_commands(commands=admin_commands)
         await message.answer("Dear admin, welcome!")

@@ -11,6 +11,7 @@ admin_commands = [
     BotCommand(command='edit_product', description='Update any product'),
     BotCommand(command='del_product', description='Delete any product'),
     BotCommand(command='products', description='All products list'),
+    BotCommand(command='all_products', description='Products list'),
 ]
 
 user_commands = [

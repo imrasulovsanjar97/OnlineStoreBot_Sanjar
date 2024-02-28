@@ -10,20 +10,14 @@ class CategoryStates(StatesGroup):
     startDeleteCategoryState = State()
     finishDeleteCategoryState = State()
 
-    
-class ProductStates(StatesGroup):
-    addSelectCategoryProdState = State()
-    addProductTitleState = State()
-    addProductTextState = State()
-    addProductImageState = State()
-    addProductPriceState = State()
-    addProductPhoneState = State()
 
-    
-    startEditProductState = State()
-    selectEditProductsState = State()
-    selectDataProductsState = State()
-    finishEditProductState = State()
+class ProductStates(StatesGroup):
+    add_SelectCategoryProdState = State()
+    add_TitleProdState = State()
+    add_TextProdState = State()
+    add_ImageProdState = State()
+    add_PriceProdState = State()
+    add_PhoneProdState = State()
 
     startDeleteProductState = State()
     finishDeleteProductState = State()

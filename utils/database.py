@@ -56,12 +56,43 @@ class Database:
         else:
             return False
 
-
     # WORK WITH PRODUCTS
-    def get_1_product(self, name):       # get one product
+    def add_product(self, title, text, image, price, phone, cat_id, u_id):
+        try:
+            self.cursor.execute(
+                f"INSERT INTO products"
+                f"(product_title, product_text, product_image, product_price, product_phone, product_category, product_owner)"
+                f"VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (title, text, image, price, phone, cat_id, u_id)
+            )
+            self.conn.commit()
+            return True
+        except:
+            return False
+
+    def get_my_last_product(self, u_id):
+        product = self.cursor.execute(
+            f"SELECT id, product_title, product_text, product_image, product_price, product_phone FROM products WHERE product_owner=? ORDER BY id DESC LIMIT 1",
+            (u_id,)
+        )
+        return product.fetchone()
+
+    def get_all_products(self, cat_id=None):
+        if cat_id is None:
+            products = self.cursor.execute(
+                "SELECT id, product_title, product_text, product_image, product_price, product_phone FROM products;"
+            )
+        else:
+            products = self.cursor.execute(
+                "SELECT id, product_title, product_text, product_image, product_price, product_phone FROM products WHERE product_category=?;",
+                (cat_id,)
+            )
+        return products.fetchall()
+    
+    def get_search_products(self, title):
         products = self.cursor.execute(
-            f"SELECT id, product_title, product_text, product_image, product_price, product_phone, product_category FROM products WHERE product_title=?"
-            f"{name};"
+            "SELECT id, product_title, product_text, product_image, product_price, product_phone FROM products WHERE product_title=?;",
+            (title,)
         )
         return products.fetchall()
     
@@ -71,42 +102,6 @@ class Database:
         )
         return products.fetchall()
     
-    def get_all_products(self):       # get all product
-        products = self.cursor.execute(
-            f"SELECT id, product_title, product_text, product_image, product_price, product_phone, product_category FROM products;"
-        )
-        return products.fetchall()
-
-    def add_product(self, title, text, image, price, phone, cat_id, u_id):
-        try:
-            self.cursor.execute(
-                f"INSERT INTO products (product_title, product_text, product_image, product_price, product_phone, product_category, product_owner)" 
-                f"VALUES(?,?,?,?,?,?,?);",
-                (title, text, image, price, phone, cat_id, u_id)
-            )
-            self.conn.commit()
-            return True
-        except:
-            return False
-    
-    def get_my_last_product(self, u_id):
-        product = self.cursor.execute(
-            f"Select id, product_title, product_text, product_image, product_price, product_phone FROM products WHERE product_owner=? ORDER BY id DESC LIMIT 1",
-            (u_id,)
-        )
-        return product.fetchone()
-    
-    def rename_product(self, old_name, new_name):
-        try:
-            self.cursor.execute(
-                "UPDATE products SET product_title=? WHERE product_title=?;",
-                (new_name, old_name)
-            )
-            self.conn.commit()
-            return True
-        except:
-            return False
-        
     def delete_product(self, name):
         try:
             self.cursor.execute(
@@ -119,12 +114,4 @@ class Database:
             return False
 
     
-    def check_product_exists(self, name):
-        lst = self.cursor.execute(
-            f"SELECT * FROM products WHERE product_title=?",
-            (name,)
-        ).fetchall()
-        if not lst:
-            return True
-        else:
-            return False
+
